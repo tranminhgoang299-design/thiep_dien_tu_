@@ -94,5 +94,42 @@
     <source src="music/nhac-tri-an.mp3" type="audio/mpeg">
 </audio>
 <div class="modal hidden" id="modal"><div class="modalbox"><button class="btn outline" id="closeModal" style="float:right">Đóng ✕</button><div id="modalContent"></div></div></div>
+<script>
+    
+const audio = document.getElementById("bgAudio");
+const toggle = document.getElementById("musicToggle");
+const volume = document.getElementById("volume");
+const audioFile = document.getElementById("audioFile");
 
+audio.volume = 0.35;
+
+toggle.addEventListener("click", async () => {
+    if (audio.paused) {
+        try {
+            await audio.play();
+            toggle.textContent = "⏸";
+        } catch (error) {
+            console.error("Không phát được nhạc:", error);
+            alert("Không thể phát nhạc. Hãy kiểm tra file MP3!");
+        }
+    } else {
+        audio.pause();
+        toggle.textContent = "▶";
+    }
+});
+
+volume.addEventListener("input", () => {
+    audio.volume = volume.value;
+});
+
+audioFile.addEventListener("change", () => {
+    const file = audioFile.files[0];
+    if (file) {
+        audio.src = URL.createObjectURL(file);
+        audio.play();
+        toggle.textContent = "⏸";
+    }
+});
+
+</script>
 </body></html>
